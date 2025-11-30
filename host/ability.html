@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quantum System Diagnostic Simulator — EXTENDED EDITION</title>
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    background: black;
+    overflow: hidden;
+    font-family: monospace;
+}
+
+
+#matrixCanvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    opacity: 0.20;
+}
+
+
+.sphere {
+    position: absolute;
+    top: 5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20vw;
+    color: cyan;
+    animation: spin 5s infinite linear;
+    text-shadow: 0 0 20px cyan;
+    z-index: 2;
+}
+@keyframes spin {
+    0% { transform: translateX(-50%) rotateY(0deg); }
+    100% { transform: translateX(-50%) rotateY(360deg); }
+}
+
+
+#grid {
+    position: absolute;
+    top: 30vh;
+    width: 100vw;
+    height: 20vh;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 255, 255, 0.14),
+        rgba(0, 255, 255, 0.14) 3px,
+        transparent 4px
+    );
+    animation: gridMove 3s linear infinite;
+    z-index: 1;
+}
+@keyframes gridMove {
+    from { transform: translateY(0); }
+    to { transform: translateY(10vh); }
+}
+
+
+#status {
+    position: absolute;
+    top: 21vh;
+    width: 100%;
+    text-align: center;
+    font-size: 5vw;
+    color: #00ffe6;
+    text-shadow: 0 0 15px #00fff2;
+    z-index: 4;
+}
+
+
+#terminal {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 45vh;
+    color: #00ff9d;
+    font-size: 2.7vw;
+    background: rgba(0,0,0,0.7);
+    border-top: 2px solid #00ffcc;
+    overflow-y: auto;
+    padding: 10px;
+    z-index: 4;
+}
+
+
+.spark {
+    position: absolute;
+    background: #00eaff;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00eaff;
+    animation: sparkMove 1.2s linear infinite;
+}
+@keyframes sparkMove {
+    from { transform: translateY(0) scale(1); opacity: 1; }
+    to { transform: translateY(-40px) scale(0.3); opacity: 0; }
+}
+
+
+@keyframes glitch {
+    0% { text-shadow: 2px 0 red; }
+    20% { text-shadow: -2px 0 blue; }
+    40% { text-shadow: 2px 0 lime; }
+    60% { text-shadow: -2px 0 yellow; }
+    80% { text-shadow: 2px 0 purple; }
+    100% { text-shadow: 0 0 20px white; }
+}
+
+#glitchText {
+    position: absolute;
+    top: 10%;
+    width: 100%;
+    text-align: center;
+    font-size: 8vw;
+    color: red;
+    display: none;
+    animation: glitch 0.2s infinite;
+    z-index: 6;
+}
+
+
+#success {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 9vw;
+    color: #00ff00;
+    text-shadow: 0 0 60px #00ff00;
+    display: none;
+    z-index: 10;
+    animation: successBoom 1.6s ease-out forwards;
+}
+
+@keyframes successBoom {
+    0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
+    50% { transform: translate(-50%, -50%) scale(1.4); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+</style>
+</head>
+
+<body>
+
+
+<canvas id="matrixCanvas"></canvas>
+
+
+<div class="sphere">◎</div>
+<div id="grid"></div>
+
+
+<div id="status">QUANTUM DIAGNOSTIC SCAN INITIATED...</div>
+<div id="terminal"></div>
+<div id="glitchText">SYSTEM SHIFT…</div>
+<div id="success">SUCCESSFULL!!!!</div>
+
+<script>
+
+const canvas = document.getElementById("matrixCanvas");
+const ctx = canvas.getContext("2d");
+
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+
+let chars = "0123456789ABCDEF";
+let drops = [];
+for (let x = 0; x < canvas.width / 10; x++) drops[x] = 1;
+
+function drawMatrix() {
+    ctx.fillStyle = "rgba(0,0,0,0.05)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = "#0f0";
+    ctx.font = "15px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+        let char = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(char, i * 10, drops[i] * 20);
+        if (drops[i] * 20 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+    }
+}
+setInterval(drawMatrix, 35);
+
+
+const terminal = document.getElementById("terminal");
+function log(line) {
+    terminal.innerHTML += line + "<br>";
+    terminal.scrollTop = terminal.scrollHeight;
+}
+
+
+const phases = [
+    "[CORE] Energizing quantum lattice nodes...",
+    "[CORE] Routing plasma through conduits...",
+    "[CORE] Aligning multidimensional reactor coils...",
+    "[SCAN] Mapping dark‑data frequency clusters...",
+    "[SCAN] Decrypting flux signatures...",
+    "[ANALYZE] Reading hyperspace echo patterns...",
+    "[ANALYZE] Recompiling neural lattice matrix...",
+    "[REGULATE] Stabilizing entropy harmonics...",
+    "[DETECT] Probing for temporal anomalies...",
+    "[SWEEP] Focusing quantum pulse sweep...",
+    "[CORE] Re‑balancing reactor fields...",
+    "[CORE] Optimizing zero‑point flow...",   
+     "[CORE] Energizing quantum lattice nodes...",
+    "[CORE] Routing plasma through conduits...",
+    "[CORE] Aligning multidimensional reactor coils...",
+    "[SCAN] Mapping dark‑data frequency clusters...",
+    "[SCAN] Decrypting flux signatures...",
+    "[ANALYZE] Reading hyperspace echo patterns...",
+    "[ANALYZE] Recompiling neural lattice matrix...",
+    "[REGULATE] Stabilizing entropy harmonics...",
+    "[DETECT] Probing for temporal anomalies...",
+    "[SWEEP] Focusing quantum pulse sweep...",
+    "[CORE] Re‑balancing reactor fields...",
+    "[CORE] Optimizing zero‑point flow...",
+
+        "[CORE] Energizing quantum lattice nodes...",
+    "[CORE] Routing plasma through conduits...",
+    "[CORE] Aligning multidimensional reactor coils...",
+    "[SCAN] Mapping dark‑data frequency clusters...",
+    "[SCAN] Decrypting flux signatures...",
+    "[ANALYZE] Reading hyperspace echo patterns...",
+    "[ANALYZE] Recompiling neural lattice matrix...",
+    "[REGULATE] Stabilizing entropy harmonics...",
+    "[DETECT] Probing for temporal anomalies...",
+    "[SWEEP] Focusing quantum pulse sweep...",
+    "[CORE] Re‑balancing reactor fields...",
+    "[CORE] Optimizing zero‑point flow...",
+
+        "[CORE] Energizing quantum lattice nodes...",
+    "[CORE] Routing plasma through conduits...",
+    "[CORE] Aligning multidimensional reactor coils...",
+    "[SCAN] Mapping dark‑data frequency clusters...",
+    "[SCAN] Decrypting flux signatures...",
+    "[ANALYZE] Reading hyperspace echo patterns...",
+    "[ANALYZE] Recompiling neural lattice matrix...",
+    "[REGULATE] Stabilizing entropy harmonics...",
+    "[DETECT] Probing for temporal anomalies...",
+    "[SWEEP] Focusing quantum pulse sweep...",
+    "[CORE] Re‑balancing reactor fields...",
+    "[CORE] Optimizing zero‑point flow...",   
+     "[CORE] Energizing quantum lattice nodes...",
+    "[CORE] Routing plasma through conduits...",
+    "[CORE] Aligning multidimensional reactor coils...",
+    "[SCAN] Mapping dark‑data frequency clusters...",
+    "[SCAN] Decrypting flux signatures...",
+    "[ANALYZE] Reading hyperspace echo patterns...",
+    "[ANALYZE] Recompiling neural lattice matrix...",
+    "[REGULATE] Stabilizing entropy harmonics...",
+    "[DETECT] Probing for temporal anomalies...",
+    "[SWEEP] Focusing quantum pulse sweep...",
+    "[CORE] Re‑balancing reactor fields...",
+    "[CORE] Optimizing zero‑point flow...",
+    
+        "[CORE] Energizing quantum lattice nodes...",
+    "[CORE] Routing plasma through conduits...",
+    "[CORE] Aligning multidimensional reactor coils...",
+    "[SCAN] Mapping dark‑data frequency clusters...",
+    "[SCAN] Decrypting flux signatures...",
+    "[ANALYZE] Reading hyperspace echo patterns...",
+    "[ANALYZE] Recompiling neural lattice matrix...",
+    "[REGULATE] Stabilizing entropy harmonics...",
+    "[DETECT] Probing for temporal anomalies...",
+    "[SWEEP] Focusing quantum pulse sweep...",
+    "[CORE] Re‑balancing reactor fields...",
+    "[CORE] Optimizing zero‑point flow..."
+
+
+];
+
+let i = 0;
+function runLogs() {
+    if (i < phases.length) {
+        log(phases[i]);
+        i++;
+        setTimeout(runLogs, 500);
+    } else {
+        bootSequence();
+    }
+}
+runLogs();
+
+
+function bootSequence() {
+    document.getElementById("status").innerText = "FINALIZING SYSTEM CORE...";
+    log("<br>[INFO] All diagnostics complete.");
+    log("[INFO] Preparing final stabilization...");
+
+    
+    setTimeout(() => {
+        document.getElementById("glitchText").style.display = "block";
+    }, 700);
+
+    
+    setTimeout(() => {
+        document.getElementById("glitchText").style.display = "none";
+    }, 2900);
+
+
+    setTimeout(() => {
+        document.getElementById("success").style.display = "block";
+    }, 2500);
+}
+
+</script>
+</body>
+</html>

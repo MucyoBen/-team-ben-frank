@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title>Find Device</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(135deg, #4e54c8, #8f94fb);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background: #ffffffdd;
+            width: 100%;
+            max-width: 380px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 8px 25px rgba(0,0,0,0.2);
+            backdrop-filter: blur(8px);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 25px;
+        }
+
+        .pay-info {
+            background: #fff6b3;
+            padding: 15px;
+            border-left: 5px solid #ffcc00;
+            border-radius: 10px;
+            color: #444;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #333;
+            font-size: 15px;
+            margin-bottom: 15px;
+            line-height: 22px;
+        }
+
+        b {
+            color: #4e54c8;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input[type="email"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            margin-bottom: 18px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        input[type="email"]:focus,
+        input[type="number"]:focus {
+            border-color: #4e54c8;
+            outline: none;
+            box-shadow: 0 0 8px rgba(78, 84, 200, 0.4);
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 14px;
+            background: #4e54c8;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background: #6c70f0;
+            transform: scale(1.03);
+        }
+
+        @media (max-width: 360px) {
+            .container { padding: 20px; }
+            h2 { font-size: 22px; }
+            input[type="email"],
+            input[type="number"],
+            input[type="submit"] { font-size: 14px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>FN Register</h2>
+
+        <div class="pay-info">
+            Pay to this number: <b>0786426925</b>
+        </div>
+
+        <p>
+            Enter your email or WhatsApp number.<br>
+            You will receive your <b>Name</b> and <b>Password</b> there.
+        </p>
+
+        <label>Email:</label>
+        <input type="email" placeholder="Enter your email..." name="email">
+
+        <label>WhatsApp Number:</label>
+        <input type="number" placeholder="Enter WhatsApp number..." name="number">
+
+       <a href="form2.html"><input type="submit" value="Register"></a> 
+    </div>
+
+</body>
+</html>

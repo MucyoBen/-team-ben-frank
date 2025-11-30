@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title>Registration Success</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(135deg, #4e54c8, #8f94fb);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .success-box {
+            background: #ffffffdd;
+            width: 100%;
+            max-width: 380px;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0px 8px 25px rgba(0,0,0,0.2);
+            backdrop-filter: blur(8px);
+            animation: fadeIn 0.8s ease-out;
+            margin-bottom: 20px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+
+        .checkmark {
+            font-size: 55px;
+            color: #4caf50;
+            margin-bottom: 15px;
+            animation: pop 0.5s ease-out;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0.3); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+
+        p {
+            color: #444;
+            font-size: 15px;
+            line-height: 22px;
+        }
+
+        b {
+            color: #4e54c8;
+        }
+
+        .pay-btn {
+            width: 100%;
+            max-width: 380px;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            background: #ffb300;
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: 0.3s;
+        }
+
+        .pay-btn:hover {
+            background: #ffd042;
+            transform: scale(1.03);
+        }
+
+        @media (max-width: 360px) {
+            .success-box { padding: 20px; }
+            h2 { font-size: 20px; }
+            p { font-size: 14px; }
+            .pay-btn { font-size: 16px; padding: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="success-box">
+        <div class="checkmark">✔</div>
+
+        <h2>Registration Successful!</h2>
+
+        <p>
+            Go and pay to this number <b>0786426925</b>.<br><br>
+            After paying, wait <b>2 minutes</b> and you will receive<br>
+            your <b>Name</b> and <b>Password</b>.
+        </p>
+    </div>
+
+    <!-- PAY NOW BUTTON OPENS PHONE DIALER -->
+    <a href="tel:0788551119" style="width:100%; max-width:380px;">
+        <button class="pay-btn">Pay Now</button>
+    </a>
+
+</body>
+</html>

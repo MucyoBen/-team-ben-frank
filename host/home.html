@@ -1,0 +1,581 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Device</title>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+            text-decoration:none;
+        }
+
+        body{
+            background: #f2f4f8;
+            padding-top: 140px; /* increased to fit search bar */
+            transition: 0.4s;
+        }
+        body.dark{
+            background: #121212;
+            color: #eee;
+        }
+
+        header{
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #1c1f26;
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center; 
+            color: white;
+            font-size: 26px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 200;
+        }
+
+        body.dark header{
+            background: #0d0d0d;
+        }
+
+        /* SEARCH BAR STYLE */
+        .search-container{
+            width: 100%;
+            padding: 10px 25px;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            z-index: 150;
+        }
+
+        body.dark{
+            background: #0d0d0d;
+        }
+
+        .search-container input{
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            border-radius: 30px;
+            border: none;
+            outline: none;
+        }
+
+        .highlight{
+            background: yellow;
+            padding: 4px;
+            border-radius: 5px;
+        }
+
+        .toggle{
+            background: #0077ff;
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+        }
+        .toggle:hover{
+            background: #005ad1;
+        }
+
+        h2{
+            margin-top: 20px;
+            text-align: center;
+            font-size: 28px;
+            color: #333;
+        }
+        body.dark h2{
+            color: #eaeaea;
+        }
+
+        .section{
+            width: 90%;
+            max-width: 850px;
+            background: #ffffff;
+            padding: 25px;
+            margin: 25px auto;
+            border-radius: 18px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+            transition: 0.4s;
+        }
+        body.dark .section{
+            background: #1e1e1e;
+            box-shadow: 0 6px 25px rgba(255,255,255,0.05);
+        }
+
+        .title{
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1c1f26;
+        }
+        body.dark .title{
+            color: #fff;
+        }
+
+        p, ul{
+            margin-top: 10px;
+            line-height: 1.6;
+            color: #444;
+        }
+        body.dark p, body.dark ul{
+            color: #ddd;
+        }
+
+        a{
+            color: #0077ff;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        a:hover{
+            text-decoration: underline;
+        }
+
+        select{
+            padding: 8px 12px;
+            font-size: 16px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .os-details{
+            margin-top: 15px;
+            display: none;
+        }
+
+        footer{
+            text-align: center;
+            padding: 25px;
+            color: #555;
+            font-size: 15px;
+        }
+        body.dark footer{
+            color: #bbb;
+        }
+        header select {
+    margin-right: 10px;
+    padding: 6px 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #1c1f26;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-size: 22px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 200;
+    white-space: nowrap; /* KUBERA IBI EVERYTHING STAYS IN ONE LINE */
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+header select {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 14px;
+}
+
+.toggle {
+    padding: 6px 14px;
+    background: #0077ff;
+    color: white;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* Phones Responsive: reduce size but still one line */
+@media (max-width: 480px) {
+    header {
+        font-size: 18px;
+        padding: 8px 10px;
+    }
+
+    header select,
+    .toggle {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+
+    .header-left {
+        font-size: 16px;
+    }
+}
+
+
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-left">FIND DEVICE</div>
+
+    <div class="header-right">
+        
+        <select id="languageSelect" onchange="changeLanguage()">
+            <option value="en">English</option>
+            <option value="fr">Français</option>
+            <option value="rw">Kinyarwanda</option>
+            <option value="sw">Swahili</option>
+        </select>
+
+        <button class="toggle" onclick="toggleDark()">Dark Mode</button>
+    </div>
+</header>
+
+
+<script>
+
+// Save user language + handle redirect
+function changeLanguage() {
+    const lang = document.getElementById("languageSelect").value;
+
+    // If user chooses Kinyarwanda → go to virus.html
+    if (lang === "rw") {
+        window.location.href = "virus.html";
+        return;
+    }
+
+    // Save selected language
+    localStorage.setItem("siteLanguage", lang);
+}
+
+
+// Load saved language
+window.addEventListener("load", function() {
+    const savedLang = localStorage.getItem("siteLanguage");
+
+    if (savedLang) {
+        document.getElementById("languageSelect").value = savedLang;
+    }
+});
+</script>
+
+
+
+    <div class="search-container">
+        <input type="search" id="phoneSearch" placeholder="🔍 Search any phone model..." onkeyup="searchPhone()">
+    </div>
+
+    <h2>Find Your Device</h2>
+
+    
+<div class="section">
+        <div class="title">📲 Phone / Mobile Devices</div>
+        <p>Select your phone type to see instructions:</p>
+        <select id="phoneSelect" onchange="showPhoneDetails()">
+            <option value="">-- Choose Phone OS --</option>
+            <option value="android">Android</option>
+            <option value="ios">iPhone (iOS)</option>
+        </select>
+
+        <div id="android" class="os-details">
+            <ul>
+                <li>Use <a href="form.html" target="_blank">Find My android</a></li>
+                <li>Ring your phone, even in silent mode</li>
+                <li>Lock or erase your phone remotely</li>
+                <li>Display a recovery message</li>
+            </ul>
+        </div>
+
+        <div id="ios" class="os-details">
+            <ul>
+                <li>Use <a href="form.html" target="_blank"> Find My iPhone</a></li>
+                <li>Play sound, lock, or erase your device remotely</li>
+                <li>Send a message with your contact info</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="title">💻 Computer / PC / Laptop</div>
+        <p>Select your computer OS to see instructions:</p>
+        <select id="pcSelect" onchange="showPCDetails()">
+            <option value="">-- Choose Computer OS --</option>
+            <option value="windows">Windows</option>
+            <option value="mac">Mac (macOS)</option>
+            <option value="linux">Linux</option>
+        </select>
+
+        <div id="windows" class="os-details">
+            <ul>
+                <li>Use <a href="form.html" target="_blank"> Find My computer</a></li>
+                <li>Lock your PC remotely</li>
+                <li>View last known location</li>
+                <li>Display a warning message or erase data</li>
+            </ul>
+        </div>
+
+        <div id="mac" class="os-details">
+            <ul>
+                <li>Use <a href="form.html" target="_blank">Find My Mac via iCloud</a></li>
+                <li>Lock, erase, or locate your Mac remotely</li>
+            </ul>
+        </div>
+
+        <div id="linux" class="os-details">
+            <ul>
+                <li>Use third-party tools like Prey or other tracking apps</li>
+                <li>Lock, display messages, or erase data remotely</li>
+            </ul>
+        </div>
+    </div>
+
+    
+    <h2>⭐Free Skills🌟</h2>
+    <div class="section">
+        <p>If both your phone and PC use the same email, you can track any of them quickly using <a href="form.html">findhub</a>.</p>
+        <p><strong>⚠️ Never track devices you don't own.</strong></p>
+    </div>
+
+
+    <h2>Phone'support</h2>
+    <div class="section">
+
+        <p><a href="form.html">📱All Samsung</a></p>
+        <p><a href="form.html">📱All Tecno</a></p>
+        <p><a href="form.html">📱All Infinix</a></p>
+        <p><a href="form.html">📱All Xiaomi (Redmi, Poco)</a></p>   
+        <p><a href="form.html">📱All Vivo</a></p>
+        <p><a href="form.html">📱All Realme</a></p>        
+        <p><a href="form.html">📱All Huawei</a></p>
+        <p><a href="form.html">📱All OnePlus</a></p>        
+        <p><a href="form.html">📱All Google Pixel</a></p>
+        <p><a href="form.html">📱All Motorola</a></p>        
+        <p><a href="form.html">📱All Nokia (Android model series)</a></p>
+        <p><a href="form.html">📱All iOS Phones</a></p>        
+        <p><a href="form.html">📱All iPhone 6, 7, 8</a></p>        
+        <p><a href="form.html">📱All iPhone X, XR, XS</a></p>
+        <p><a href="form.html">📱All iPhone 11 Series</a></p>        
+        <p><a href="form.html">📱All iPhone 12 Series</a></p>        
+        <p><a href="form.html">📱All iPhone 13 Series</a></p>
+        <p><a href="form.html">📱All iPhone 14 Series</a></p>
+        <p><a href="form.html">📱All iPhone 15 Series</a></p>        
+        <p><a href="form.html">📱All Other (Rare)</a></p>        
+        <p><a href="form.html">📱All KaiOS phones (Nokia button phones)</a></p>
+        <p><a href="form.html">📱All HarmonyOS (Huawei China models)</a></p>
+        <p><a href="form.html">📱all Hot series</a></p>
+        <p><a href="form.html">📱all Smart series</a></p>
+        <p><a href="form.html">📱all Note series</a></p>
+        <p><a href="form.html">📱all Zero Series</a></p>
+        <p><a href="form.html">📱all Samsung Galaxy S series</a></p>
+        <p><a href="form.html">📱all Samsung Galaxy A series</a></p>
+        <p><a href="form.html">📱all Samsung Fold / Flip</a></p>
+        <p><a href="form.html">📱all Redmi series</a></p>
+        <p><a href="form.html">📱all Poco series</a></p>
+        <p><a href="form.html">📱Xiaomi Flagships</a></p>
+        <p><a href="form.html">📱all Opp A series</a></p>
+        <p><a href="form.html">📱all Opp Reno series</a></p>
+        <p><a href="form.html">📱all Vivo Y & V series</a></p>
+        <p><a href="form.html">📱all Opp A series</a></p>        
+        <p><a href="form.html">📱techno pop2</a></p>
+        <p><a href="form.html">📱techno pop2F</a></p>
+        <p><a href="form.html">📱techno pop2 plus</a></p>
+        <p><a href="form.html">📱techno Spark 2</a></p>
+        <p><a href="form.html">📱techno Spark 3</a></p>
+        <p><a href="form.html">📱techno Spark 4</a></p>
+        <p><a href="form.html">📱techno Spark 5</a></p>
+        <p><a href="form.html">📱techno Spark 6</a></p>
+        <p><a href="form.html">📱techno Spark 7</a></p>
+        <p><a href="form.html">📱techno Spark 8</a></p>
+        <p><a href="form.html">📱techno Spark 9</a></p>
+        <p><a href="form.html">📱techno Spark 10</a></p>
+        <p><a href="form.html">📱techno Spark 20..</a></p>
+        <p><a href="form.html">📱techno camon 12</a></p>
+        <p><a href="form.html">📱techno camon 15</a></p>
+        <p><a href="form.html">📱techno camon 18</a></p>
+        <p><a href="form.html">📱techno camon 20..</a></p>
+        <p><a href="form.html">📱techno phantom</a></p>
+
+    </div>
+
+
+<h2>📱 All Phone Types & Brands</h2>
+<div class="section">
+
+    <div class="title">Select Phone Type</div>
+
+    <select id="osSelect" onchange="showBrands()">
+        <option value="">-- Choose Phone OS --</option>
+        <option value="android">Android Phones</option>
+        <option value="ios">iPhone (iOS)</option>
+        <option value="feature">Feature / Button Phones</option>
+        <option value="satellite">Satellite Phones</option>
+    </select>
+
+    <select id="brandSelect" style="display:none;" onchange="showModels()">
+        <option value="">-- Choose Brand --</option>
+    </select>
+
+    <select id="modelSelect" style="display:none;">
+        <option value="">-- Choose Model --</option>
+    </select>
+
+</div>
+
+<script>
+    const phoneData = {
+        android: {
+            Samsung: ["Galaxy A Series", "Galaxy S Series", "Galaxy Note", "Galaxy Fold", "Galaxy Flip"],
+            Tecno: ["Pop 2", "Pop 2F", "Pop 2+", "Spark Series", "Camon Series", "Phantom"],
+            Infinix: ["Hot Series", "Note Series", "Smart Series", "Zero Series"],
+            Xiaomi: ["Redmi Series", "Poco Series", "Xiaomi Series"],
+            Oppo: ["A Series", "Reno Series"],
+            Vivo: ["Y Series", "V Series"],
+            Huawei: ["Y Series", "Nova Series", "P Series", "Mate Series"],
+            OnePlus: ["Nord Series", "8/9/10 Series"]
+        },
+
+        ios: {
+            iPhone: [
+                "iPhone 6 / 6s",
+                "iPhone 7 / 7 Plus",
+                "iPhone 8 / 8 Plus",
+                "iPhone X / XR / XS",
+                "iPhone 11 Series",
+                "iPhone 12 Series",
+                "iPhone 13 Series",
+                "iPhone 14 Series",
+                "iPhone 15 Series",
+                "iPhone 16 Series"
+            ]
+        },
+
+        feature: {
+            Nokia: ["105", "110", "1280", "150", "2720 Flip", "3310 (New)"],
+            Itel: ["Itel Keypad Series"],
+            Tecno: ["Basic Phone Series"],
+            Bontel: ["Bontel Rugged Phones"],
+            Samsung: ["Samsung Duo Button Phones"]
+        },
+
+        satellite: {
+            Thuraya: ["XT-Lite", "XT-Pro"],
+            Iridium: ["9555", "Iridium Extreme"],
+            Inmarsat: ["IsatPhone 2"],
+            Garmin: ["inReach Mini", "inReach Explorer+"]
+        }
+    };
+
+    function showBrands() {
+        const os = document.getElementById('osSelect').value;
+        const brandSelect = document.getElementById('brandSelect');
+        const modelSelect = document.getElementById('modelSelect');
+
+        brandSelect.innerHTML = '<option value="">-- Choose Brand --</option>';
+        modelSelect.style.display = "none";
+
+        if (!os) {
+            brandSelect.style.display = "none";
+            return;
+        }
+
+        const brands = Object.keys(phoneData[os]);
+        brands.forEach(brand => {
+            brandSelect.innerHTML += `<option value="${brand}">${brand}</option>`;
+        });
+
+        brandSelect.style.display = "block";
+    }
+
+    function showModels() {
+        const os = document.getElementById('osSelect').value;
+        const brand = document.getElementById('brandSelect').value;
+        const modelSelect = document.getElementById('modelSelect');
+        
+        modelSelect.innerHTML = '<option value="">-- Choose Model --</option>';
+
+        if (!brand) {
+            modelSelect.style.display = "none";
+            return;
+        }
+
+        const models = phoneData[os][brand];
+        models.forEach(model => {
+            modelSelect.innerHTML += `<option value="${model}">${model}</option>`;
+        });
+
+        modelSelect.style.display = "block";
+    }
+</script>
+
+    
+
+    <script>
+        function toggleDark(){
+            document.body.classList.toggle("dark");
+        }
+
+        function showPhoneDetails(){
+            const value = document.getElementById('phoneSelect').value;
+            document.querySelectorAll('.os-details').forEach(el => el.style.display = 'none');
+            if(value) document.getElementById(value).style.display = 'block';
+        }
+
+        function showPCDetails(){
+            const value = document.getElementById('pcSelect').value;
+            document.querySelectorAll('.os-details').forEach(el => el.style.display = 'none');
+            if(value) document.getElementById(value).style.display = 'block';
+        }
+
+        function searchPhone(){
+            const search = document.getElementById("phoneSearch").value.toLowerCase();
+            const items = document.querySelectorAll(".section p");
+
+            items.forEach(p=>{
+                p.classList.remove("highlight");
+
+                if(search && p.innerText.toLowerCase().includes(search)){
+                    p.scrollIntoView({behavior:"smooth", block:"center"});
+                    p.classList.add("highlight");
+                }
+            });
+        }
+    </script>
+
+        <h2>Antivirus🛡</h2>
+    <div class="section">
+        <p><strong>It show your virus and remove it in .</strong></p>
+        <p><a href="form.html">Ant_virus ACTIVATE</a>.</p>
+    </div>
+
+            <h2>Fire Phone⚡</h2>
+    <div class="section">
+        <p><strong>It makes your phone goes fast.</strong></p>
+        <p><a href="ability.html">ACTIVATE</a>.</p>
+    </div>
+
+        <footer>© 2026 Find Device</footer>
+ 
+</body>
+</html>
