@@ -117,7 +117,7 @@
 </head>
 <body>
 
-    <div class="container">
+    <form action="form2.html" class="container">
         <h2>FN Register</h2>
 
         <div class="pay-info">
@@ -130,13 +130,31 @@
         </p>
 
         <label>Email:</label>
-        <input type="email" placeholder="Enter your email..." name="email">
+        <input type="email" placeholder="Enter your email..." name="email" id="email">
 
         <label>WhatsApp Number:</label>
-        <input type="number" placeholder="Enter WhatsApp number..." name="number">
+        <input type="number" placeholder="Enter WhatsApp number..." name="number" id="num">
 
-       <a href="form2.html"><input type="submit" value="Register"></a> 
-    </div>
+       <input type="submit" value="Register"  onclick="check()"> 
+    </form>
+    <script>
+
+function check(){
+
+const email= document.getElementById("email").value;
+const number= document.getElementById("num").value;
+
+if(email && number ===""){
+    return false;
+}
+else{
+    return true;
+}
+
+}
+check();
+
+    </script>
 
 </body>
 </html>

