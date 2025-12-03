@@ -51,7 +51,7 @@ app.post("/send-email", async (req, res) => {
 
     const now = Date.now();
     const lastSent = cooldown.get(email);
-    const COOLDOWN_TIME = 6 * 60 * 1000;
+    const COOLDOWN_TIME = 2 * 60 * 1000;
 
     if (lastSent && now - lastSent < COOLDOWN_TIME) {
         const remaining = Math.ceil((COOLDOWN_TIME - (now - lastSent)) / 1000);
