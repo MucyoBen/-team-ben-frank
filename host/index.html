@@ -241,14 +241,6 @@ header select {
     <div class="header-left">FIND DEVICE</div>
 
     <div class="header-right">
-        
-        <select id="languageSelect" onchange="changeLanguage()">
-            <option value="en">English</option>
-            <option value="fr">Français</option>
-            <option value="rw">Kinyarwanda</option>
-            <option value="sw">Swahili</option>
-        </select>
-
         <button class="toggle" onclick="toggleDark()">Dark Mode</button>
     </div>
 </header>
@@ -576,7 +568,22 @@ window.addEventListener("load", function() {
     </div>
 
         <footer>© 2026 Find Device</footer>
- 
+
+        <script>
+            
+            const waitMinutes = 1; 
+            
+            
+            const accepted = localStorage.getItem("termsAccepted");
+            
+    
+            if (!accepted) {
+                setTimeout(() => {
+                    window.location.href = "terms1.html";
+                }, waitMinutes * 60 * 1000); 
+            }
+            </script>
+            
 </body>
 </html>
 

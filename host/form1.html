@@ -112,49 +112,56 @@
             input[type="number"],
             input[type="submit"] { font-size: 14px; }
         }
-
     </style>
 </head>
 <body>
 
-    <form action="form2.html" class="container">
+    <form class="container" onsubmit="sendEmail(event)">
         <h2>FN Register</h2>
-
+           
         <div class="pay-info">
             Pay to this number: <b>0786426925</b>
         </div>
 
         <p>
             Enter your email or WhatsApp number.<br>
-            You will receive your <b>Name</b> and <b>Password</b> there.
+            You will receive your <b>Password</b> there.
         </p>
 
         <label>Email:</label>
-        <input type="email" placeholder="Enter your email..." name="email" id="email">
+        <input type="email" placeholder="Enter your email..." id="email">
 
-        <label>WhatsApp Number:</label>
-        <input type="number" placeholder="Enter WhatsApp number..." name="number" id="num">
-
-       <input type="submit" value="Register"  onclick="check()"> 
+        <input type="submit" value="Register">
+        <p id="msg" style="text-align:center; font-size:14px;"></p>
     </form>
-    <script>
 
-function check(){
+<script>
+async function sendEmail(event){
+    event.preventDefault();
 
-const email= document.getElementById("email").value;
-const number= document.getElementById("num").value;
+    const email = document.getElementById("email").value;
+    const msg = document.getElementById("msg");
 
-if(email && number ===""){
-    return false;
+    if(!email){
+        msg.innerHTML = "Please enter email.";
+        msg.style.color = "red";
+        return;
+    }
+
+    msg.innerHTML = "Processing...";
+    msg.style.color = "black";
+
+    // Fire and forget (NO WAITING for response)
+    fetch("http://localhost:3000/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+    });
+
+    // INSTANT REDIRECT
+    window.location.href = "form2.html";
 }
-else{
-    return true;
-}
-
-}
-check();
-
-    </script>
+</script>
 
 </body>
 </html>

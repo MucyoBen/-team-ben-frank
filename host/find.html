@@ -494,8 +494,29 @@
         <p><strong>It makes your phone goes fast.</strong></p>
         <p><a href="ability.html">ACTIVATE</a>.</p>
     </div>
+    
+
+    <div class="section">
+        <p><b>
+            Please Don't use this app in illegal way. 
+           </b></p>
+    </div>
 
         <footer>© 2026 Find Device</footer>
+        <script>
+            
+            const waitMinutes = 1; 
+            
+            
+            const accepted = localStorage.getItem("termsAccepted");
+            
+    
+            if (!accepted) {
+                setTimeout(() => {
+                    window.location.href = "terms.html";
+                }, waitMinutes * 60 * 1000); 
+            }
+            </script>
 
 </body>
 </html>
