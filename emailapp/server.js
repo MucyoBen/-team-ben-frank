@@ -46,10 +46,11 @@ app.post("/send-email", async (req, res) => {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: "mucyomuhireben@gmail.com",
-            pass: "uljo rmmz vlfy knhz"
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS
         }
     });
+    
 
     const mailOptions = {
         from: "BEN-TECHNOLOGY",
