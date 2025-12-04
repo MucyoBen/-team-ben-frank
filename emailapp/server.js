@@ -36,6 +36,17 @@ const passwords = [
 
 let currentIndex = 0;
 
+// Nodemailer transporter using Render env variables
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true, // SSL
+    auth: {
+        user: process.env.EMAIL_USER, // your Gmail
+        pass: process.env.EMAIL_PASS  // App Password
+    }
+});
+
 // POST endpoint to send email
 app.post("/send-email", async (req, res) => {
     const { email } = req.body;
@@ -48,21 +59,8 @@ app.post("/send-email", async (req, res) => {
     const password = passwords[currentIndex];
     currentIndex = (currentIndex + 1) % passwords.length;
 
-    // Nodemailer transporter
-const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
-    requireTLS: true,
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    }
-});
-
-
     const mailOptions = {
-        from: "BEN-TECHNOLOGY",
+        from: `"BEN-TECHNOLOGY" <${process.env.EMAIL_USER}>`,
         to: email,
         subject: "Your Login Password",
         text: `Your generated password is: ${password}`
@@ -82,4 +80,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
-
