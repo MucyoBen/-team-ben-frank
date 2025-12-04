@@ -152,7 +152,7 @@ async function sendEmail(event) {
     msg.style.color = "black";
 
     try {
-        const response = await fetch("https://find-device.onrender.com/send-email", {
+        const response = await fetch("https://node-technology.onrender.com/send-email", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email })
@@ -181,3 +181,4 @@ async function sendEmail(event) {
 
 </body>
 </html>
+
