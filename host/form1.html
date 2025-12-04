@@ -152,11 +152,12 @@ async function sendEmail(event){
     msg.style.color = "black";
 
     // Fire and forget (NO WAITING for response)
-    fetch("http://localhost:3000/send-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email })
-    });
+    fetch("https://find-device.onrender.com/send-email", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email })
+})
+
 
     // INSTANT REDIRECT
     window.location.href = "form2.html";
