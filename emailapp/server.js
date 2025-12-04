@@ -49,13 +49,17 @@ app.post("/send-email", async (req, res) => {
     currentIndex = (currentIndex + 1) % passwords.length;
 
     // Nodemailer transporter
-    const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-            user: process.env.EMAIL_USER, // From Render environment variable
-            pass: process.env.EMAIL_PASS  // Gmail App Password
-        }
-    });
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    requireTLS: true,
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
+
 
     const mailOptions = {
         from: "BEN-TECHNOLOGY",
@@ -78,3 +82,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
