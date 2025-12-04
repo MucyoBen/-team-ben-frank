@@ -1,11 +1,15 @@
+// server.js
 const express = require("express");
 const nodemailer = require("nodemailer");
 const cors = require("cors");
 
 const app = express();
+
+// Middleware
 app.use(express.json());
 app.use(cors());
 
+// List of passwords
 const passwords = [
     "174fg#@", "184jg#@", "294j$*@", "104jg#@", "184jg*@",
     "854kg#@", "273ab*@", "561cd#@", "731ef*%", "642gh@#",
@@ -32,6 +36,7 @@ const passwords = [
 
 let currentIndex = 0;
 
+// POST endpoint to send email
 app.post("/send-email", async (req, res) => {
     const { email } = req.body;
 
@@ -43,14 +48,14 @@ app.post("/send-email", async (req, res) => {
     const password = passwords[currentIndex];
     currentIndex = (currentIndex + 1) % passwords.length;
 
+    // Nodemailer transporter
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS
+            user: process.env.EMAIL_USER, // From Render environment variable
+            pass: process.env.EMAIL_PASS  // Gmail App Password
         }
     });
-    
 
     const mailOptions = {
         from: "BEN-TECHNOLOGY",
@@ -63,8 +68,13 @@ app.post("/send-email", async (req, res) => {
         await transporter.sendMail(mailOptions);
         res.json({ message: "Email sent successfully", password });
     } catch (error) {
-        res.status(500).json({ message: "Email sending failed", error });
+        console.error("Email sending failed:", error);
+        res.status(500).json({ message: "Email sending failed", error: error.message });
     }
 });
 
-app.listen(3000, () => console.log("Server running on port 3000"));
+// Start server using Render's dynamic PORT
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
