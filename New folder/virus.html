@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Antivirus System Scan</title>
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    background: black;
+    color: #00ff00;
+    font-family: monospace;
+    overflow: hidden;
+}
+
+
+/* Giant shield icon */
+.shield {
+    position: absolute;
+    top: 5vh;
+    width: 100%;
+    text-align: center;
+    font-size: 18vw;
+    color: #1e90ff;
+    text-shadow: 0 0 20px #00aaff, 0 0 40px #00ffd5;
+    animation: pulse 2s infinite ease-in-out;
+}
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Terminal box */
+#terminal {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 55vh;
+    background: rgba(0,0,0,0.85);
+    border-top: 2px solid #0f0;
+    padding: 10px;
+    overflow-y: auto;
+    font-size: 2.7vw;
+    line-height: 1.5;
+}
+
+/* Progress bar */
+#progressBox {
+    position: absolute;
+    top: 28vh;
+    width: 90vw;
+    left: 5vw;
+    height: 24px;
+    border: 2px solid #00ff00;
+    border-radius: 8px;
+}
+#progressBar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #00ff00, #00ffaa, #00ff00);
+    transition: width 0.25s ease;
+}
+
+/* Status text */
+#status {
+    text-align: center;
+    margin-top: 22vh;
+    font-size: 5vw;
+    color: red;
+    animation: blink 2s infinite;
+}
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: .3; }
+    100% { opacity: 1; }
+}
+
+/* Threat warning */
+#threat {
+    position: absolute;
+    top: 35vh;
+    width: 100%;
+    text-align: center;
+    font-size: 6vw;
+    color: yellow;
+    display: none;
+    text-shadow: 0 0 20px yellow;
+}
+
+/* Cleaning success */
+#success {
+    position: absolute;
+    top: 40vh;
+    width: 100%;
+    text-align: center;
+    color: #00ff00;
+    font-size: 7vw;
+    display: none;
+    text-shadow: 0 0 25px #00ff00;
+}
+</style>
+</head>
+<body>
+
+<!-- Sounds -->
+<audio id="beep" src="https://cdn.pixabay.com/audio/2023/05/13/audio_203841bbcc.mp3"></audio>
+<audio id="alert" src="https://cdn.pixabay.com/audio/2022/03/15/audio_86f44e6900.mp3"></audio>
+<audio id="clean" src="https://cdn.pixabay.com/audio/2022/03/15/audio_145d617462.mp3"></audio>
+
+<div class="shield">🛡</div>
+
+<div id="status">ANTIVIRUS: SCANNING SYSTEM...</div>
+
+<div id="progressBox"><div id="progressBar"></div></div>
+
+<div id="threat">⚠ THREAT DETECTED!</div>
+
+<div id="terminal"></div>
+
+<div id="success">✔ SYSTEM CLEAN — ALL THREATS REMOVED</div>
+
+<script>
+const term = document.getElementById("terminal");
+const beep = document.getElementById("beep");
+const alertSound = document.getElementById("alert");
+const cleanSound = document.getElementById("clean");
+const threat = document.getElementById("threat");
+const success = document.getElementById("success");
+const bar = document.getElementById("progressBar");
+
+// Fake system data
+const logLines = [];
+for (let i = 0; i < 350; i++) {
+    logLines.push([
+        "[SCAN] Analyzing memory block: 0x" + Math.floor(Math.random()*999999).toString(16),
+        "[SCAN] Checking file: C:/System32/" + Math.random().toString(36).substring(2,10) + ".dll",
+        "[CHECK] Verifying registry key: HKLM/Software/" + Math.random().toString(36).substring(2,8),
+        "[CHECK] Inspecting boot sector...",
+        "[NET] Monitoring network packet: " + Math.floor(Math.random()*999999),
+        "[SYS] CPU thread latency check...",
+        "[IO] Reading disk cluster..."
+    ][Math.floor(Math.random()*7)]);
+}
+
+let progress = 0;
+let index = 0;
+let threatTriggered = false;
+
+function addLine(text) {
+    term.innerHTML += text + "<br>";
+    term.scrollTop = term.scrollHeight;
+}
+
+function scan() {
+    if (progress >= 100) {
+        startCleaning();
+        return;
+    }
+
+    progress += Math.random() * 3 + 1;
+    if (progress > 100) progress = 100;
+    bar.style.width = progress + "%";
+
+    // print log
+    if (index < logLines.length) {
+        addLine(logLines[index]);
+        index++;
+    }
+
+    // play beep
+    beep.volume = 0.15;
+    beep.play();
+
+    // Fake threat detection at 62%
+    if (progress > 62 && !threatTriggered) {
+        threatTriggered = true;
+        threat.style.display = "block";
+        alertSound.play();
+
+        addLine("[WARNING] Suspicious file detected.");
+        addLine("[ALERT] Threat identified: Trojan.Win32.Agent.GX");
+        addLine("[ACTION] Quarantining file...");
+    }
+
+    setTimeout(scan, 70);
+}
+
+function startCleaning() {
+    addLine("<br>----- CLEANING INFECTED FILES -----");
+    threat.style.display = "none";
+
+    let i = 0;
+    const infected = [
+        "Trojan.Win32.Agent.GX",
+        "Malware.Script.Injector",
+        "Adware.Popup.Agent",
+        "Worm.AutoRun.Gen"
+    ];
+
+    const cleanInterval = setInterval(() => {
+        if (i >= infected.length) {
+            clearInterval(cleanInterval);
+
+            cleanSound.play();
+            success.style.display = "block";
+            addLine("<br>All threats removed successfully.");
+            return;
+        }
+
+        addLine("[REMOVING] " + infected[i] + " ...");
+        i++;
+    }, 800);
+}
+
+scan();
+</script>
+
+</body>
+</html>
